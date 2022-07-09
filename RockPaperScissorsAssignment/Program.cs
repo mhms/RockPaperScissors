@@ -3,10 +3,11 @@
 //var numberOfSimulation = 100;
 
 using System.Threading.Channels;
+using RockPaperScissorsAssignment;
 
 namespace RPSGame
 {
-    enum ChoiceStrategy
+    public enum ChoiceStrategy
     {
         None = 0,
         Rock = 1,
@@ -19,33 +20,43 @@ namespace RPSGame
         Yes = 0,
         No = 1
     }
+
+    public enum GameResult
+    {
+        Draw = 0,
+        Win = 1,
+        Lose = 2
+    }
     public class Game
     {
         public static void Main()
         {
             int numberOfSimulation = 100;
             var contiueGame = ContinueSimulationEnum.Yes;
+            //var computerStrategy = ChoiceStrategy.Rock;
+            var computerStrategy = FactoryMethod.CreateStrategy(ChoiceStrategy.Rock);
             for (int i = 0; i < numberOfSimulation && contiueGame == ContinueSimulationEnum.Yes; i++)
             {
                 Console.WriteLine($"Simulation Turn:{i + 1}");
-                var selectedStrategy = ChoiceStrategy.None;
+                var userStrategy = ChoiceStrategy.None;
                 do
                 {
                     Console.Write("\r\nChoose Your Option( 1)Rock 2)Paper 3)Scissors ):");
-                    selectedStrategy = SelectStrategy(Console.ReadKey().Key);
-                } while (selectedStrategy == ChoiceStrategy.None);
+                    userStrategy = SelectStrategy(Console.ReadKey().Key);
+                } while (userStrategy == ChoiceStrategy.None);
 
                 Console.WriteLine();
-                if (selectedStrategy == ChoiceStrategy.Paper)
+                var result = computerStrategy.FindWinner(userStrategy);
+                if (result == GameResult.Win)
                 {
-                    Console.WriteLine("User Loses");
-                }else if (selectedStrategy == ChoiceStrategy.Rock)
+                    Console.WriteLine("Computer Wins");
+                }else if (result == GameResult.Lose)
                 {
-                    Console.WriteLine("User and Computer Draw");
+                    Console.WriteLine("Computer Loses");
                 }
-                else if (selectedStrategy == ChoiceStrategy.Scissors)
+                else
                 {
-                    Console.WriteLine("User Wins");
+                    Console.WriteLine("DRAW!!");
                 }
                 Console.Write("Would You like to contiune(Y/N):");
                 if (Console.ReadKey().Key == ConsoleKey.N)
@@ -56,6 +67,14 @@ namespace RPSGame
                 Console.WriteLine("\r\n----------------------------------------");
             }
             Console.WriteLine("\r\n Game Finished");
+        }
+
+        private static string FindWinner(ChoiceStrategy compStrategy , ChoiceStrategy userStrategy)
+        {
+            var resultMessage = "";
+            
+
+            return resultMessage;
         }
 
         private static ChoiceStrategy SelectStrategy( ConsoleKey key)
