@@ -7,11 +7,11 @@ using RPSGame;
 
 namespace RockPaperScissorsAssignment
 {
-    public class FactoryMethod
+    public class StrategyFactoryMethod
     {
         public IRPSStrategy RPSStrategy { get; set; }
 
-        public static IRPSStrategy? CreateStrategy(ChoiceStrategy choice)
+        public static IRPSStrategy? Create(ChoiceStrategy choice)
         {
             return choice switch
             {
